@@ -1,0 +1,39 @@
+.process {
+  padding: 90px 0;
+  background: var(--gray);
+  text-align: center;
+}
+
+.process-steps {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.process-steps div {
+  background: var(--white);
+  padding: 30px;
+  border-radius: 16px;
+  font-weight: 600;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+  transition: 0.3s;
+}
+
+.process-steps div:hover {
+  transform: translateY(-8px);
+}
+
+/* responsive */
+
+@media (max-width: 900px) {
+  .process-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .process-steps {
+    grid-template-columns: 1fr;
+  }
+}

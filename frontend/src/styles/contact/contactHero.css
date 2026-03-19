@@ -1,0 +1,6 @@
+.contact-hero {
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, #c40000, #ffcc00);
+  text-align: center;
+  color: var(--white);
+}

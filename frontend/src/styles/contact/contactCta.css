@@ -1,0 +1,11 @@
+.contact-cta {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #c40000, #ffcc00);
+  text-align: center;
+  color: var(--white);
+}
+
+.contact-cta h2 {
+  font-size: 34px;
+  margin-bottom: 20px;
+}

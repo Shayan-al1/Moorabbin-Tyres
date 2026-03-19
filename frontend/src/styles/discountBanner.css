@@ -1,0 +1,8 @@
+.discount-global {
+  background: linear-gradient(90deg,#ffcc00,#ff9900);
+  text-align: center;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .3px;
+}

@@ -1,0 +1,13 @@
+.services-intro {
+  padding: 80px 0;
+  text-align: center;
+  background: var(--white);
+}
+
+.services-intro p {
+  max-width: 700px;
+  margin: 20px auto 0;
+  color: #666;
+  font-size: 17px;
+  line-height: 1.6;
+}

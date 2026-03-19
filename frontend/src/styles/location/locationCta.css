@@ -1,0 +1,26 @@
+.location-cta {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #c40000, #ffcc00);
+  text-align: center;
+  color: var(--white);
+}
+
+.location-cta h2 {
+  font-size: 34px;
+  margin-bottom: 25px;
+}
+
+.location-cta .cta-btn {
+  display: inline-block;
+  background: var(--dark);
+  color: var(--white);
+  padding: 14px 30px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.location-cta .cta-btn:hover {
+  transform: scale(1.05);
+}

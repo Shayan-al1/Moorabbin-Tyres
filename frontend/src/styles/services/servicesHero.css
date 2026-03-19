@@ -1,0 +1,11 @@
+.services-hero {
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, #c40000, #ffcc00);
+  color: var(--white);
+  text-align: center;
+}
+
+.services-hero h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
