@@ -6,7 +6,6 @@ import alignImg from "../assets/alignment.jpg";
 import balanceImg from "../assets/balance.png";
 import punctureImg from "../assets/puncture.webp";
 import suspensionImg from "../assets/suspension.jpg";
-import DiscountBanner from "./DiscountBanner";
 
 export default function Services() {
   const services = [

@@ -1,8 +1,207 @@
-.discount-global {
-  background: linear-gradient(90deg,#ffcc00,#ff9900);
-  text-align: center;
-  padding: 12px;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: .3px;
+.discount-banner {
+  padding-top: 80px;
+  background:
+    linear-gradient(135deg, rgba(196, 0, 0, 0.96) 0%, rgba(130, 0, 0, 0.96) 100%);
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.discount-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(255, 204, 0, 0.3), transparent 32%),
+    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.12), transparent 28%);
+  pointer-events: none;
+}
+
+.discount-banner-inner {
+  position: relative;
+  z-index: 1;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.discount-copy {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.discount-copy p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.discount-pill {
+  display: inline-flex;
+  align-items: center;
+  background: var(--secondary);
+  color: var(--dark);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 10px 24px rgba(255, 204, 0, 0.28);
+}
+
+.discount-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.discount-link,
+.discount-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.discount-link {
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.discount-button {
+  background: var(--secondary);
+  color: var(--dark);
+  box-shadow: 0 14px 28px rgba(255, 204, 0, 0.22);
+}
+
+.discount-link:hover,
+.discount-button:hover {
+  transform: translateY(-2px);
+}
+
+.discount-button:hover {
+  background: var(--white);
+}
+
+.discount-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+@media (max-width: 900px) {
+  .discount-banner-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .discount-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .discount-copy {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .discount-banner .container {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .discount-banner {
+    padding-top: 80px;
+  }
+
+  .discount-banner-inner {
+    width: 100%;
+    min-height: auto;
+    gap: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .discount-copy {
+    gap: 8px;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .discount-copy p {
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: none;
+    width: 100%;
+  }
+
+  .discount-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .discount-link,
+  .discount-button {
+    width: 100%;
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .discount-pill {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .discount-link i {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .discount-banner-inner {
+    gap: 8px;
+  }
+
+  .discount-copy p {
+    font-size: 12px;
+  }
+
+  .discount-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .discount-link,
+  .discount-button {
+    min-height: 36px;
+    font-size: 12px;
+    padding: 0 10px;
+  }
 }

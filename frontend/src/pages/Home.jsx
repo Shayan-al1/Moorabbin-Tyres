@@ -3,6 +3,7 @@ import Services from "../components/Services";
 import LocationSection from "../components/LocationSection";
 import WhyChooseUs from "../components/WhyChooseUs";
 import Brands from "../components/Brands";
+import Testimonials from "../components/Testimonials";
 import { Helmet } from "react-helmet-async";
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
       <Hero />
       <Services />
       <WhyChooseUs />
+      <Testimonials />
       <Brands />
       <LocationSection />
     </>
