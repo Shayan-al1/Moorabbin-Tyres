@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Change this value when the backend base URL moves.
-export const API_BASE_URL = "http://localhost:5000/api";
+export const API_BASE_URL = "https://tyre-backend.onrender.com/api";
 
 const client = axios.create({
   baseURL: API_BASE_URL,
