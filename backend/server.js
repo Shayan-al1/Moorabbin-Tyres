@@ -21,7 +21,8 @@ app.use(cors({
   origin: [
     "https://tyre-frontend.onrender.com",
     "https://www.moorabbintyres.com",
-    "https://moorabbin​tyres.com"
+    "https://moorabbin​tyres.com",
+    "http://localhost:5173"
   ],
   methods: ["GET","POST","PUT","DELETE"],
   credentials: true
