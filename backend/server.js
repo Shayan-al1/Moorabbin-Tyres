@@ -16,7 +16,10 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: "https://tyre-frontend.onrender.com"
+}));
 app.use(express.json());
 
 app.use("/api", bookingRoutes);
