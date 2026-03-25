@@ -18,8 +18,15 @@ connectDB();
 
 // app.use(cors());
 app.use(cors({
-  origin: "https://tyre-frontend.onrender.com"
+  origin: [
+    "https://tyre-frontend.onrender.com",
+    "https://www.moorabbintyres.com",
+    "https://moorabbin​tyres.com"
+  ],
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
 }));
+
 app.use(express.json());
 
 app.use("/api", bookingRoutes);
