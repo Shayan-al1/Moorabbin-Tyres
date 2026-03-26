@@ -20,9 +20,9 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="container navbar-inner">
         {/* Logo */}
-        <div className="logo">
+        <NavLink to="/" className="logo" onClick={() => setMenuOpen(false)}>
           <img src={Logo} alt="Logo" />
-        </div>
+        </NavLink>
 
         {/* Desktop Links */}
         <div className="nav-links">

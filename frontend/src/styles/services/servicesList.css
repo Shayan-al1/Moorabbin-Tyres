@@ -48,4 +48,10 @@
   .services-grid {
     grid-template-columns: repeat(1, 1fr);
   }
+  .services-list {
+    padding: 0;
+  }
+  .services-intro {
+    padding: 40px 0;
+  }
 }

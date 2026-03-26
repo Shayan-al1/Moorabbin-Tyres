@@ -32,6 +32,14 @@
   }
 }
 
+@media (max-width: 786px) {
+.process {
+  padding: 60px 0;
+  background: var(--gray);
+  text-align: center;
+}
+}
+
 @media (max-width: 500px) {
   .process-steps {
     grid-template-columns: 1fr;

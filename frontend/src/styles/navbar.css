@@ -91,15 +91,32 @@
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
   cursor: pointer;
   gap: 6px;
+  width: 26px;
+  height: 26px;
+  position: relative;
 }
 
 .hamburger span {
   width: 26px;
-  height: 3px;
+  height: 2px;
   background: var(--dark);
-  transition: 0.3s;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 /* MOBILE MENU */

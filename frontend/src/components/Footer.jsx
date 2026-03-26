@@ -60,7 +60,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        © 2026 TireService. All rights reserved.
+        © 2026 Moorabbin Tyres. All rights reserved.
       </div>
     </footer>
   );

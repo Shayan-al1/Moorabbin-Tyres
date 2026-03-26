@@ -1,59 +1,129 @@
-import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const requiredEnv = ["EMAIL_USER", "EMAIL_PASS", "OWNER_EMAIL"];
-const missingEnv = requiredEnv.filter((key) => !process.env[key]);
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS_RAW = process.env.EMAIL_PASS;
+const OWNER_EMAIL = process.env.OWNER_EMAIL;
 
-if (missingEnv.length) {
-  throw new Error(
-    `Missing required email environment variables: ${missingEnv.join(", ")}`
-  );
-}
+const normalizeEmail = (value) => {
+  if (value === undefined || value === null) return null;
+  const trimmed = String(value).trim();
+  if (!trimmed) return null;
+  return trimmed;
+};
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+const isValidEmail = (value) => {
+  const email = normalizeEmail(value);
+  if (!email) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const getTransporter = () => {
+  const user = EMAIL_USER;
+  const pass = EMAIL_PASS_RAW ? String(EMAIL_PASS_RAW).replace(/\s+/g, "") : null;
+
+  if (!user) throw new Error("Missing EMAIL_USER in environment");
+  if (!pass) throw new Error("Missing EMAIL_PASS in environment");
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user,
+      pass,
+    },
+  });
+};
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+const formatBookingHtml = (booking) => {
+  const rows = [
+    ["Name", booking?.name],
+    ["Phone", booking?.phone],
+    ["Email", booking?.email || "(not provided)"],
+    ["Vehicle Type", booking?.vehicleType],
+    ["Tyre Service", booking?.tyreService],
+    ["Other Service", booking?.otherServiceText || ""],
+    ["Date", booking?.date],
+    ["Time", booking?.time || ""],
+    ["Status", booking?.status || "pending"],
+  ];
+
+  const list = rows
+    .filter(([, v]) => v !== undefined && v !== null && String(v).trim() !== "")
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:6px 10px;border:1px solid #ddd;"><b>${escapeHtml(
+          k
+        )}</b></td><td style="padding:6px 10px;border:1px solid #ddd;">${escapeHtml(
+          v
+        )}</td></tr>`
+    )
+    .join("");
+
+  return `
+    <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.4;">
+      <h2 style="margin:0 0 12px;">New Booking</h2>
+      <table style="border-collapse:collapse;">${list}</table>
+    </div>
+  `.trim();
+};
 
 export const sendBookingEmail = async (booking) => {
-  const message = `
-New Tyre Service Booking
+  const fromEmail = normalizeEmail(EMAIL_USER);
+  const toEmail = normalizeEmail(OWNER_EMAIL);
+  const replyToEmail = isValidEmail(booking?.email)
+    ? normalizeEmail(booking.email)
+    : undefined;
 
-Name: ${booking.name}
-Phone: ${booking.phone}
-Email: ${booking.email || "N/A"}
+  if (!OWNER_EMAIL) throw new Error("Missing OWNER_EMAIL in environment");
+  if (!isValidEmail(fromEmail)) throw new Error("EMAIL_USER is not a valid email");
+  if (!isValidEmail(toEmail)) throw new Error("OWNER_EMAIL is not a valid email");
 
-Vehicle: ${booking.vehicleType}
-Service: ${booking.tyreService}
-${
-  booking.tyreService === "Other" && booking.otherServiceText
-    ? `Other Service: ${booking.otherServiceText}`
-    : ""
-}
-
-Date: ${booking.date}
-Time: ${booking.time}
-
-Status: ${booking.status}
-`.trim();
+  const subject = `Booking Confirmed${booking?.name ? ` - ${booking.name}` : ""}`;
+  const htmlContent = formatBookingHtml(booking);
+  const textContent = [
+    "New Booking",
+    "",
+    `Name: ${booking?.name ?? ""}`,
+    `Phone: ${booking?.phone ?? ""}`,
+    `Email: ${booking?.email ?? ""}`,
+    `Vehicle Type: ${booking?.vehicleType ?? ""}`,
+    `Tyre Service: ${booking?.tyreService ?? ""}`,
+    `Other Service: ${booking?.otherServiceText ?? ""}`,
+    `Date: ${booking?.date ?? ""}`,
+    `Time: ${booking?.time ?? ""}`,
+    `Status: ${booking?.status ?? "pending"}`,
+  ]
+    .map((line) => String(line))
+    .join("\n");
 
   try {
+    const transporter = getTransporter();
+
     await transporter.sendMail({
-      from: `Tyre Service <${process.env.EMAIL_USER}>`,
-      to: process.env.OWNER_EMAIL,
-      replyTo: booking.email || undefined,
-      subject: "New Tyre Service Booking",
-      text: message
+      from: fromEmail,
+      to: toEmail,
+      replyTo: replyToEmail,
+      subject,
+      text: textContent,
+      html: htmlContent,
     });
-  } catch (error) {
-    console.error("Failed to send booking email", error);
-    throw new Error("Unable to send booking email");
+  } catch (err) {
+    const details = {
+      message: err?.message,
+      code: err?.code,
+      response: err?.response,
+    };
+    console.error("Nodemailer sendBookingEmail failed:", details);
+    throw err;
   }
 };

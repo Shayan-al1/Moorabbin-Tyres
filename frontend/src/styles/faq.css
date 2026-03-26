@@ -127,7 +127,7 @@
 }
 
 .faq-content {
-  padding: 12px 0 84px;
+  padding: 12px 0 60px;
 }
 
 .faq-layout {
@@ -199,7 +199,7 @@
 }
 
 .faq-cta {
-  padding: 0 0 100px;
+  padding: 0 20px 60px 20px;
 }
 
 .faq-cta__box {
@@ -235,7 +235,7 @@
 
 @media (max-width: 900px) {
   .faq-hero {
-    padding: 116px 0 56px;
+    padding: 60px 0 56px;
   }
 
   .faq-hero__grid,
@@ -265,10 +265,27 @@
 }
 
 @media (max-width: 640px) {
+  .faq-cta__box {
+    padding: 28px 20px;
+    gap: 20px;
+  }
+
   .faq-hero__content h1,
   .faq-intro h2,
   .faq-cta__box h2 {
     line-height: 1.08;
+  }
+
+  .faq-cta__actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .faq-cta__primary,
+  .faq-cta__secondary {
+    width: 100%;
+    padding: 16px 18px;
   }
 
   .faq-question {

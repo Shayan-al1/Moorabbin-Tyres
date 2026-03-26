@@ -184,7 +184,7 @@ export default function FAQ() {
         </section>
 
         <section className="faq-cta">
-          <div className="container faq-cta__box">
+          <div className="faq-cta__box">
             <div>
               <span>Need a direct answer?</span>
               <h2>Book your tyre service with confidence</h2>

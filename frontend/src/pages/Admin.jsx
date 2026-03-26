@@ -34,14 +34,8 @@ export default function Admin() {
       setError("");
       setActionMessage("");
       try {
-        const res = await client.get("/bookings");
-
-        if (Array.isArray(res.data)) {
-          setBookings(res.data);
-        } else {
-          console.warn("Bookings API returned non-array:", res.data);
-          setBookings([]);
-        }
+        const { data } = await client.get("/bookings");
+        setBookings(data);
       } catch (err) {
         setError(err.message || "Unable to load bookings");
       } finally {

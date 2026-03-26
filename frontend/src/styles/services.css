@@ -6,7 +6,7 @@
 .section-title {
   text-align: center;
   font-size: 36px;
-  margin-bottom: 50px;
+  margin-bottom: 1rem;
 }
 
 /* GRID */
@@ -30,8 +30,8 @@
 
 .service-discount {
   position: absolute;
-  top: 7px;
-  left: 7px;
+  top: 10px;
+  left: 10px;
   background: #ff2e2e;
   color: white;
   padding: 6px 10px;
@@ -49,6 +49,7 @@
   width: 100%;
   height: 220px;
   object-fit: cover;
+  margin-top: 0.5rem;
 }
 
 .service-content {

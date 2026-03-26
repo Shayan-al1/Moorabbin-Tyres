@@ -126,8 +126,7 @@
 @media (max-width: 600px) {
   .discount-banner .container {
     max-width: none;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 1rem 0;
   }
 
   .discount-banner {
