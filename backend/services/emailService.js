@@ -22,13 +22,17 @@ const isValidEmail = (value) => {
 
 const getTransporter = () => {
   const user = EMAIL_USER;
-  const pass = EMAIL_PASS_RAW ? String(EMAIL_PASS_RAW).replace(/\s+/g, "") : null;
+  const pass = EMAIL_PASS_RAW
+    ? String(EMAIL_PASS_RAW).replace(/\s+/g, "")
+    : null;
 
   if (!user) throw new Error("Missing EMAIL_USER in environment");
   if (!pass) throw new Error("Missing EMAIL_PASS in environment");
 
   return nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user,
       pass,
@@ -62,10 +66,10 @@ const formatBookingHtml = (booking) => {
     .map(
       ([k, v]) =>
         `<tr><td style="padding:6px 10px;border:1px solid #ddd;"><b>${escapeHtml(
-          k
+          k,
         )}</b></td><td style="padding:6px 10px;border:1px solid #ddd;">${escapeHtml(
-          v
-        )}</td></tr>`
+          v,
+        )}</td></tr>`,
     )
     .join("");
 
@@ -85,8 +89,10 @@ export const sendBookingEmail = async (booking) => {
     : undefined;
 
   if (!OWNER_EMAIL) throw new Error("Missing OWNER_EMAIL in environment");
-  if (!isValidEmail(fromEmail)) throw new Error("EMAIL_USER is not a valid email");
-  if (!isValidEmail(toEmail)) throw new Error("OWNER_EMAIL is not a valid email");
+  if (!isValidEmail(fromEmail))
+    throw new Error("EMAIL_USER is not a valid email");
+  if (!isValidEmail(toEmail))
+    throw new Error("OWNER_EMAIL is not a valid email");
 
   const subject = `Booking Confirmed${booking?.name ? ` - ${booking.name}` : ""}`;
   const htmlContent = formatBookingHtml(booking);
