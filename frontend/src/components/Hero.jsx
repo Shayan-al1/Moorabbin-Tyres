@@ -14,7 +14,7 @@ export default function Hero() {
           </h1>
 
           <p>
-            Reliable tire installation, wheel alignment and suspension repair
+            Reliable tire installation, wheel alignment and
             services to keep your vehicle safe and performing at its best.
           </p>
 
