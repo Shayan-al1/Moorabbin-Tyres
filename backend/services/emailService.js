@@ -1,28 +1,36 @@
-import { BrevoClient } from "@getbrevo/brevo";
+import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const BREVO_API_KEY = process.env.BREVO_API_KEY;
-if (!BREVO_API_KEY) {
-  throw new Error("Missing BREVO_API_KEY in environment");
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
+const OWNER_EMAIL = process.env.OWNER_EMAIL;
+
+if (!EMAIL_USER) {
+  throw new Error("Missing EMAIL_USER in environment");
 }
 
-const SENDER_EMAIL =
-  process.env.BREVO_SENDER_EMAIL ||
-  process.env.OWNER_EMAIL ||
-  process.env.EMAIL_USER;
-
-if (!SENDER_EMAIL) {
-  throw new Error(
-    "Missing sender email. Set BREVO_SENDER_EMAIL (recommended) or OWNER_EMAIL/EMAIL_USER."
-  );
+if (!EMAIL_PASS) {
+  throw new Error("Missing EMAIL_PASS in environment");
 }
 
 const SENDER_NAME = process.env.BREVO_SENDER_NAME || "Moorabbin Tyres";
-const OWNER_EMAIL = process.env.OWNER_EMAIL;
 
-const brevo = new BrevoClient({ apiKey: BREVO_API_KEY });
+const normalizePassword = (value) => {
+  if (value === undefined || value === null) return "";
+  return String(value).replace(/\s+/g, "").trim();
+};
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: EMAIL_USER,
+    pass: normalizePassword(EMAIL_PASS),
+  },
+});
 
 const normalizeEmail = (value) => {
   if (value === undefined || value === null) return null;
@@ -79,10 +87,10 @@ const formatBookingHtml = (booking) => {
 };
 
 export const sendBookingEmail = async (booking) => {
-  const senderEmail = normalizeEmail(SENDER_EMAIL);
+  const senderEmail = normalizeEmail(EMAIL_USER);
   if (!isValidEmail(senderEmail)) {
     throw new Error(
-      "Sender email is invalid. Set a valid BREVO_SENDER_EMAIL (or OWNER_EMAIL/EMAIL_USER)."
+      "Sender email is invalid. Set a valid EMAIL_USER in environment."
     );
   }
 
@@ -107,12 +115,13 @@ export const sendBookingEmail = async (booking) => {
   const htmlContent = formatBookingHtml(booking);
 
   try {
+    const from = `${SENDER_NAME} <${senderEmail}>`;
     const send = (to) =>
-      brevo.transactionalEmails.sendTransacEmail({
-        sender: { email: senderEmail, name: SENDER_NAME },
-        to: [to],
+      transporter.sendMail({
+        from,
+        to: to.email,
         subject,
-        htmlContent,
+        html: htmlContent,
       });
 
     const promises = [];
@@ -123,10 +132,11 @@ export const sendBookingEmail = async (booking) => {
   } catch (err) {
     const details = {
       message: err?.message,
-      statusCode: err?.statusCode,
-      body: err?.body,
+      code: err?.code,
+      response: err?.response,
+      responseCode: err?.responseCode,
     };
-    console.error("Brevo sendBookingEmail failed:", details);
+    console.error("SMTP sendBookingEmail failed:", details);
     throw err;
   }
 };
